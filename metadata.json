@@ -1,0 +1,5 @@
+{
+  "name": "AI Dataset Discovery Pipeline",
+  "description": "An AI-powered application that generates a comprehensive plan for discovering and ingesting datasets from the web using strategies like web crawling with Firecrawl.",
+  "requestFramePermissions": []
+}
