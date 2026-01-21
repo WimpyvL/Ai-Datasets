@@ -1,4 +1,4 @@
-import { Type } from "@google/genai";
+
 import { ai, GEMINI_MODEL } from './client';
 
 const ANALYSIS_PROMPT = `
@@ -42,12 +42,12 @@ export async function analyzeUrlForAccessMethod(url: string): Promise<AnalysisRe
             config: {
                 responseMimeType: 'application/json',
                 responseSchema: {
-                    type: Type.OBJECT,
+                    type: "OBJECT" as const,
                     properties: {
-                        accessMethod: { type: Type.STRING },
-                        target: { type: Type.STRING },
-                        justification: { type: Type.STRING },
-                        confidence: { type: Type.NUMBER },
+                        accessMethod: { type: "STRING" as const },
+                        target: { type: "STRING" as const },
+                        justification: { type: "STRING" as const },
+                        confidence: { type: "NUMBER" as const },
                     },
                     required: ["accessMethod", "target", "justification", "confidence"],
                 }

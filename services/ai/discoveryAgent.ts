@@ -1,4 +1,4 @@
-import { Type } from "@google/genai";
+
 import { ai, GEMINI_MODEL } from './client';
 
 const DISCOVERY_PROMPT = `
@@ -28,12 +28,12 @@ export async function findDatasetUrls(datasetDescription: string): Promise<Disco
             config: {
                 responseMimeType: 'application/json',
                 responseSchema: {
-                    type: Type.OBJECT,
+                    type: "OBJECT" as const,
                     properties: {
                         urls: {
-                            type: Type.ARRAY,
+                            type: "ARRAY" as const,
                             items: {
-                                type: Type.STRING
+                                type: "STRING" as const
                             }
                         }
                     }
