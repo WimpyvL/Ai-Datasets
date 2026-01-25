@@ -77,10 +77,23 @@ async function start() {
     await animateLoading('SYNCHRONIZING WITH GEMINI 2.5 FLASH...');
     await showProgressBar('INITIALIZING DATASTREAM');
 
-    console.log(`\n${COLORS.green}${COLORS.bold}✔ SYSTEM READY. DEPLOYING INTERFACE...${COLORS.reset}\n`);
+    console.log(`\n${COLORS.green}${COLORS.bold}✔ SYSTEM READY. DEPLOYING FULL STACK...${COLORS.reset}\n`);
     await sleep(500);
 
-    // Launch Vite
+    // Launch Backend (Encore)
+    console.log(`${COLORS.magenta}${COLORS.bold}[BACKEND]${COLORS.reset} ${COLORS.dim}Starting Encore...${COLORS.reset}`);
+    const encore = spawn('encore', ['run'], {
+        stdio: 'inherit',
+        shell: true,
+        cwd: './backend'
+    });
+
+    encore.on('error', (err) => {
+        console.error(`${COLORS.red}Failed to start Encore: ${err.message}${COLORS.reset}`);
+    });
+
+    // Launch Frontend (Vite)
+    console.log(`${COLORS.cyan}${COLORS.bold}[FRONTEND]${COLORS.reset} ${COLORS.dim}Starting Vite...${COLORS.reset}`);
     const vite = spawn('npx', ['vite'], {
         stdio: 'inherit',
         shell: true
@@ -88,6 +101,13 @@ async function start() {
 
     vite.on('error', (err) => {
         console.error(`${COLORS.red}Failed to start Vite: ${err.message}${COLORS.reset}`);
+    });
+
+    // Handle process termination
+    process.on('SIGINT', () => {
+        encore.kill();
+        vite.kill();
+        process.exit();
     });
 }
 
